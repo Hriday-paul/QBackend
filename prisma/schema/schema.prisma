@@ -91,6 +91,8 @@ model Job {
   requirements     String?
   benefits         String?
 
+  category JobCategory
+
   experience String?
   education String[]
   gender String[]
@@ -115,6 +117,17 @@ model Job {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum JobCategory {
+  DESIGN
+  SALES
+  MARKETING
+  FINANCE
+  TECHNOLOGY
+  ENGINEERING
+  BUSINESS
+  HUMAN_RESOURCE
 }
 
 enum JobType {

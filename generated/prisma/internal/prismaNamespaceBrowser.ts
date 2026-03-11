@@ -140,6 +140,7 @@ export const JobScalarFieldEnum = {
   responsibilities: 'responsibilities',
   requirements: 'requirements',
   benefits: 'benefits',
+  category: 'category',
   experience: 'experience',
   education: 'education',
   gender: 'gender',

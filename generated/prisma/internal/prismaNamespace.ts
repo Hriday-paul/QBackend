@@ -965,6 +965,7 @@ export const JobScalarFieldEnum = {
   responsibilities: 'responsibilities',
   requirements: 'requirements',
   benefits: 'benefits',
+  category: 'category',
   experience: 'experience',
   education: 'education',
   gender: 'gender',
@@ -1073,6 +1074,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'JobCategory'
+ */
+export type EnumJobCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JobCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'JobCategory[]'
+ */
+export type ListEnumJobCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JobCategory[]'>
     
 
 

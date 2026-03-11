@@ -16,6 +16,20 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const JobCategory = {
+  DESIGN: 'DESIGN',
+  SALES: 'SALES',
+  MARKETING: 'MARKETING',
+  FINANCE: 'FINANCE',
+  TECHNOLOGY: 'TECHNOLOGY',
+  ENGINEERING: 'ENGINEERING',
+  BUSINESS: 'BUSINESS',
+  HUMAN_RESOURCE: 'HUMAN_RESOURCE'
+} as const
+
+export type JobCategory = (typeof JobCategory)[keyof typeof JobCategory]
+
+
 export const JobType = {
   Onsite: 'Onsite',
   Remote: 'Remote'

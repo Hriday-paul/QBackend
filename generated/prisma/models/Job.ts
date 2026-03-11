@@ -42,6 +42,7 @@ export type JobMinAggregateOutputType = {
   responsibilities: string | null
   requirements: string | null
   benefits: string | null
+  category: $Enums.JobCategory | null
   experience: string | null
   salaryMin: number | null
   salaryMax: number | null
@@ -64,6 +65,7 @@ export type JobMaxAggregateOutputType = {
   responsibilities: string | null
   requirements: string | null
   benefits: string | null
+  category: $Enums.JobCategory | null
   experience: string | null
   salaryMin: number | null
   salaryMax: number | null
@@ -86,6 +88,7 @@ export type JobCountAggregateOutputType = {
   responsibilities: number
   requirements: number
   benefits: number
+  category: number
   experience: number
   education: number
   gender: number
@@ -122,6 +125,7 @@ export type JobMinAggregateInputType = {
   responsibilities?: true
   requirements?: true
   benefits?: true
+  category?: true
   experience?: true
   salaryMin?: true
   salaryMax?: true
@@ -144,6 +148,7 @@ export type JobMaxAggregateInputType = {
   responsibilities?: true
   requirements?: true
   benefits?: true
+  category?: true
   experience?: true
   salaryMin?: true
   salaryMax?: true
@@ -166,6 +171,7 @@ export type JobCountAggregateInputType = {
   responsibilities?: true
   requirements?: true
   benefits?: true
+  category?: true
   experience?: true
   education?: true
   gender?: true
@@ -277,6 +283,7 @@ export type JobGroupByOutputType = {
   responsibilities: string | null
   requirements: string | null
   benefits: string | null
+  category: $Enums.JobCategory
   experience: string | null
   education: string[]
   gender: string[]
@@ -324,6 +331,7 @@ export type JobWhereInput = {
   responsibilities?: Prisma.StringNullableFilter<"Job"> | string | null
   requirements?: Prisma.StringNullableFilter<"Job"> | string | null
   benefits?: Prisma.StringNullableFilter<"Job"> | string | null
+  category?: Prisma.EnumJobCategoryFilter<"Job"> | $Enums.JobCategory
   experience?: Prisma.StringNullableFilter<"Job"> | string | null
   education?: Prisma.StringNullableListFilter<"Job">
   gender?: Prisma.StringNullableListFilter<"Job">
@@ -350,6 +358,7 @@ export type JobOrderByWithRelationInput = {
   responsibilities?: Prisma.SortOrderInput | Prisma.SortOrder
   requirements?: Prisma.SortOrderInput | Prisma.SortOrder
   benefits?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrder
   experience?: Prisma.SortOrderInput | Prisma.SortOrder
   education?: Prisma.SortOrder
   gender?: Prisma.SortOrder
@@ -379,6 +388,7 @@ export type JobWhereUniqueInput = Prisma.AtLeast<{
   responsibilities?: Prisma.StringNullableFilter<"Job"> | string | null
   requirements?: Prisma.StringNullableFilter<"Job"> | string | null
   benefits?: Prisma.StringNullableFilter<"Job"> | string | null
+  category?: Prisma.EnumJobCategoryFilter<"Job"> | $Enums.JobCategory
   experience?: Prisma.StringNullableFilter<"Job"> | string | null
   education?: Prisma.StringNullableListFilter<"Job">
   gender?: Prisma.StringNullableListFilter<"Job">
@@ -405,6 +415,7 @@ export type JobOrderByWithAggregationInput = {
   responsibilities?: Prisma.SortOrderInput | Prisma.SortOrder
   requirements?: Prisma.SortOrderInput | Prisma.SortOrder
   benefits?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrder
   experience?: Prisma.SortOrderInput | Prisma.SortOrder
   education?: Prisma.SortOrder
   gender?: Prisma.SortOrder
@@ -437,6 +448,7 @@ export type JobScalarWhereWithAggregatesInput = {
   responsibilities?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null
   requirements?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null
   benefits?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null
+  category?: Prisma.EnumJobCategoryWithAggregatesFilter<"Job"> | $Enums.JobCategory
   experience?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null
   education?: Prisma.StringNullableListFilter<"Job">
   gender?: Prisma.StringNullableListFilter<"Job">
@@ -461,6 +473,7 @@ export type JobCreateInput = {
   responsibilities?: string | null
   requirements?: string | null
   benefits?: string | null
+  category: $Enums.JobCategory
   experience?: string | null
   education?: Prisma.JobCreateeducationInput | string[]
   gender?: Prisma.JobCreategenderInput | string[]
@@ -486,6 +499,7 @@ export type JobUncheckedCreateInput = {
   responsibilities?: string | null
   requirements?: string | null
   benefits?: string | null
+  category: $Enums.JobCategory
   experience?: string | null
   education?: Prisma.JobCreateeducationInput | string[]
   gender?: Prisma.JobCreategenderInput | string[]
@@ -511,6 +525,7 @@ export type JobUpdateInput = {
   responsibilities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   benefits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumJobCategoryFieldUpdateOperationsInput | $Enums.JobCategory
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   education?: Prisma.JobUpdateeducationInput | string[]
   gender?: Prisma.JobUpdategenderInput | string[]
@@ -536,6 +551,7 @@ export type JobUncheckedUpdateInput = {
   responsibilities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   benefits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumJobCategoryFieldUpdateOperationsInput | $Enums.JobCategory
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   education?: Prisma.JobUpdateeducationInput | string[]
   gender?: Prisma.JobUpdategenderInput | string[]
@@ -561,6 +577,7 @@ export type JobCreateManyInput = {
   responsibilities?: string | null
   requirements?: string | null
   benefits?: string | null
+  category: $Enums.JobCategory
   experience?: string | null
   education?: Prisma.JobCreateeducationInput | string[]
   gender?: Prisma.JobCreategenderInput | string[]
@@ -585,6 +602,7 @@ export type JobUpdateManyMutationInput = {
   responsibilities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   benefits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumJobCategoryFieldUpdateOperationsInput | $Enums.JobCategory
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   education?: Prisma.JobUpdateeducationInput | string[]
   gender?: Prisma.JobUpdategenderInput | string[]
@@ -608,6 +626,7 @@ export type JobUncheckedUpdateManyInput = {
   responsibilities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   benefits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumJobCategoryFieldUpdateOperationsInput | $Enums.JobCategory
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   education?: Prisma.JobUpdateeducationInput | string[]
   gender?: Prisma.JobUpdategenderInput | string[]
@@ -642,6 +661,7 @@ export type JobCountOrderByAggregateInput = {
   responsibilities?: Prisma.SortOrder
   requirements?: Prisma.SortOrder
   benefits?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   education?: Prisma.SortOrder
   gender?: Prisma.SortOrder
@@ -671,6 +691,7 @@ export type JobMaxOrderByAggregateInput = {
   responsibilities?: Prisma.SortOrder
   requirements?: Prisma.SortOrder
   benefits?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   salaryMin?: Prisma.SortOrder
   salaryMax?: Prisma.SortOrder
@@ -693,6 +714,7 @@ export type JobMinOrderByAggregateInput = {
   responsibilities?: Prisma.SortOrder
   requirements?: Prisma.SortOrder
   benefits?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   salaryMin?: Prisma.SortOrder
   salaryMax?: Prisma.SortOrder
@@ -768,6 +790,10 @@ export type JobCreategenderInput = {
   set: string[]
 }
 
+export type EnumJobCategoryFieldUpdateOperationsInput = {
+  set?: $Enums.JobCategory
+}
+
 export type JobUpdateeducationInput = {
   set?: string[]
   push?: string | string[]
@@ -823,6 +849,7 @@ export type JobCreateWithoutCompanyInput = {
   responsibilities?: string | null
   requirements?: string | null
   benefits?: string | null
+  category: $Enums.JobCategory
   experience?: string | null
   education?: Prisma.JobCreateeducationInput | string[]
   gender?: Prisma.JobCreategenderInput | string[]
@@ -847,6 +874,7 @@ export type JobUncheckedCreateWithoutCompanyInput = {
   responsibilities?: string | null
   requirements?: string | null
   benefits?: string | null
+  category: $Enums.JobCategory
   experience?: string | null
   education?: Prisma.JobCreateeducationInput | string[]
   gender?: Prisma.JobCreategenderInput | string[]
@@ -900,6 +928,7 @@ export type JobScalarWhereInput = {
   responsibilities?: Prisma.StringNullableFilter<"Job"> | string | null
   requirements?: Prisma.StringNullableFilter<"Job"> | string | null
   benefits?: Prisma.StringNullableFilter<"Job"> | string | null
+  category?: Prisma.EnumJobCategoryFilter<"Job"> | $Enums.JobCategory
   experience?: Prisma.StringNullableFilter<"Job"> | string | null
   education?: Prisma.StringNullableListFilter<"Job">
   gender?: Prisma.StringNullableListFilter<"Job">
@@ -924,6 +953,7 @@ export type JobCreateWithoutApplicationsInput = {
   responsibilities?: string | null
   requirements?: string | null
   benefits?: string | null
+  category: $Enums.JobCategory
   experience?: string | null
   education?: Prisma.JobCreateeducationInput | string[]
   gender?: Prisma.JobCreategenderInput | string[]
@@ -948,6 +978,7 @@ export type JobUncheckedCreateWithoutApplicationsInput = {
   responsibilities?: string | null
   requirements?: string | null
   benefits?: string | null
+  category: $Enums.JobCategory
   experience?: string | null
   education?: Prisma.JobCreateeducationInput | string[]
   gender?: Prisma.JobCreategenderInput | string[]
@@ -988,6 +1019,7 @@ export type JobUpdateWithoutApplicationsInput = {
   responsibilities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   benefits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumJobCategoryFieldUpdateOperationsInput | $Enums.JobCategory
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   education?: Prisma.JobUpdateeducationInput | string[]
   gender?: Prisma.JobUpdategenderInput | string[]
@@ -1012,6 +1044,7 @@ export type JobUncheckedUpdateWithoutApplicationsInput = {
   responsibilities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   benefits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumJobCategoryFieldUpdateOperationsInput | $Enums.JobCategory
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   education?: Prisma.JobUpdateeducationInput | string[]
   gender?: Prisma.JobUpdategenderInput | string[]
@@ -1036,6 +1069,7 @@ export type JobCreateManyCompanyInput = {
   responsibilities?: string | null
   requirements?: string | null
   benefits?: string | null
+  category: $Enums.JobCategory
   experience?: string | null
   education?: Prisma.JobCreateeducationInput | string[]
   gender?: Prisma.JobCreategenderInput | string[]
@@ -1059,6 +1093,7 @@ export type JobUpdateWithoutCompanyInput = {
   responsibilities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   benefits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumJobCategoryFieldUpdateOperationsInput | $Enums.JobCategory
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   education?: Prisma.JobUpdateeducationInput | string[]
   gender?: Prisma.JobUpdategenderInput | string[]
@@ -1083,6 +1118,7 @@ export type JobUncheckedUpdateWithoutCompanyInput = {
   responsibilities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   benefits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumJobCategoryFieldUpdateOperationsInput | $Enums.JobCategory
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   education?: Prisma.JobUpdateeducationInput | string[]
   gender?: Prisma.JobUpdategenderInput | string[]
@@ -1107,6 +1143,7 @@ export type JobUncheckedUpdateManyWithoutCompanyInput = {
   responsibilities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   benefits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumJobCategoryFieldUpdateOperationsInput | $Enums.JobCategory
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   education?: Prisma.JobUpdateeducationInput | string[]
   gender?: Prisma.JobUpdategenderInput | string[]
@@ -1161,6 +1198,7 @@ export type JobSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   responsibilities?: boolean
   requirements?: boolean
   benefits?: boolean
+  category?: boolean
   experience?: boolean
   education?: boolean
   gender?: boolean
@@ -1188,6 +1226,7 @@ export type JobSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   responsibilities?: boolean
   requirements?: boolean
   benefits?: boolean
+  category?: boolean
   experience?: boolean
   education?: boolean
   gender?: boolean
@@ -1213,6 +1252,7 @@ export type JobSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   responsibilities?: boolean
   requirements?: boolean
   benefits?: boolean
+  category?: boolean
   experience?: boolean
   education?: boolean
   gender?: boolean
@@ -1238,6 +1278,7 @@ export type JobSelectScalar = {
   responsibilities?: boolean
   requirements?: boolean
   benefits?: boolean
+  category?: boolean
   experience?: boolean
   education?: boolean
   gender?: boolean
@@ -1255,7 +1296,7 @@ export type JobSelectScalar = {
   updatedAt?: boolean
 }
 
-export type JobOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "responsibilities" | "requirements" | "benefits" | "experience" | "education" | "gender" | "salaryMin" | "salaryMax" | "currency" | "street" | "division" | "job_type" | "employment_type" | "companyId" | "status" | "deadline" | "createdAt" | "updatedAt", ExtArgs["result"]["job"]>
+export type JobOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "responsibilities" | "requirements" | "benefits" | "category" | "experience" | "education" | "gender" | "salaryMin" | "salaryMax" | "currency" | "street" | "division" | "job_type" | "employment_type" | "companyId" | "status" | "deadline" | "createdAt" | "updatedAt", ExtArgs["result"]["job"]>
 export type JobInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   applications?: boolean | Prisma.Job$applicationsArgs<ExtArgs>
@@ -1281,6 +1322,7 @@ export type $JobPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     responsibilities: string | null
     requirements: string | null
     benefits: string | null
+    category: $Enums.JobCategory
     experience: string | null
     education: string[]
     gender: string[]
@@ -1727,6 +1769,7 @@ export interface JobFieldRefs {
   readonly responsibilities: Prisma.FieldRef<"Job", 'String'>
   readonly requirements: Prisma.FieldRef<"Job", 'String'>
   readonly benefits: Prisma.FieldRef<"Job", 'String'>
+  readonly category: Prisma.FieldRef<"Job", 'JobCategory'>
   readonly experience: Prisma.FieldRef<"Job", 'String'>
   readonly education: Prisma.FieldRef<"Job", 'String[]'>
   readonly gender: Prisma.FieldRef<"Job", 'String[]'>
