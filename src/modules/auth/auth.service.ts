@@ -7,22 +7,19 @@ import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import { generateOtp } from "../../utils/otpGenerator"
 import moment from "moment"
 import prisma from "../../shared/prisma"
-import { BusinessCard, Role, User } from "../../../generated/prisma/client"
 import fs from 'fs';
 import path from "path"
 import { sendEmail } from "../../utils/mailSender"
 import generateRandomString from "../../utils/generateRandomString"
-import { firebaseAdmin } from "../notification/notification.utils"
+import { Role, User } from "../../../generated/prisma/client"
 
 type TUserMore = {
     password: string
-    businessCard: BusinessCard
-    role: Role
 }
 
 const createUser = async (req_body: User & TUserMore) => {
 
-    const { fname, lname, email, phone, password, address, countries, profession, businessCard } = req_body;
+    const { fname, lname, email, phone, password, address } = req_body;
 
     let isExist = await prisma.user.findFirst({ where: { email }, include: { auth: true } });
 
@@ -39,19 +36,13 @@ const createUser = async (req_body: User & TUserMore) => {
     const hashedPassword = await bcrypt.hash(password + PEPPER, 15);
 
     const body = {
-        fname, lname, email, phone, address, countries, profession
+        fname, lname, email, phone, address
     }
 
     const user = await prisma.user.upsert({
         where: { email },
         update: {
             ...body,
-            businessCard: {
-                upsert: {
-                    update: businessCard,
-                    create: businessCard
-                }
-            },
             auth: {
                 upsert: {
                     update: { password: hashedPassword, },
@@ -61,9 +52,6 @@ const createUser = async (req_body: User & TUserMore) => {
         },
         create: {
             ...body,
-            businessCard: {
-                create: businessCard
-            },
             auth: {
                 create: {
                     email,
@@ -179,94 +167,6 @@ const loginUser = async (payload: { email: string, password: string, fcmToken?: 
     };
 };
 
-const socialLogin = async (payload: { idToken: string }) => {
-
-    const idToken = payload?.idToken;
-
-    const { name, email, picture } = await firebaseAdmin.auth().verifyIdToken(idToken);
-
-    if (!name || !email) {
-        throw new AppError(httpStatus.BAD_REQUEST, "Authentication Failed")
-    }
-
-    let user = await prisma.user.findFirst({
-        where: {
-            email: email,
-            isDeleted: false,
-            auth: { role: { not: Role.ADMIN } }
-        },
-        include: { auth: true }
-    });
-
-    // if user does not exist on my db, create a new user
-    if (!user) {
-        // creat encrypted password
-        const PEPPER = config.password_pepper;
-        const hashedPassword = await bcrypt.hash(generateRandomString(10) + PEPPER, 15);
-
-        const pic = picture ? { picture: { create: { url: picture, key: generateRandomString(8) } } } : {}
-
-        user = await prisma.user.create({
-            data: {
-                email,
-                fname: name,
-                auth: {
-                    create: {
-                        isverified: true,
-                        isSocialLogin: true,
-                        email,
-                        password: hashedPassword
-                    }
-                },
-                ...pic,
-            },
-            include: { auth: true }
-        })
-    }
-    // if user is exist but created by form
-    else if (!user?.auth?.isSocialLogin) {
-        // If user not found, throw error
-        throw new AppError(httpStatus.FORBIDDEN, 'You account is connected by another login system');
-    } else {
-
-        if (!user?.auth?.status) {
-            throw new AppError(httpStatus.FORBIDDEN, 'Your account is blocked');
-        }
-
-        if (user?.auth?.isDeleted) {
-            throw new AppError(httpStatus.FORBIDDEN, 'Your account is deleted');
-        }
-    };
-
-    const role = user?.auth?.role;
-
-    const jwtPayload: { userId: string; role: Role } = {
-        userId: user?.id,
-        role: user?.auth?.role!
-    };
-
-    const userDoc = (user as any);
-    delete userDoc.auth;
-
-    const accessToken = createToken(
-        jwtPayload,
-        config.jwt_access_secret as string,
-        60 * 60 * 24 * 7, //7 days
-    );
-
-    const refreshToken = createToken(
-        jwtPayload,
-        config.jwt_refresh_secret as string,
-        60 * 60 * 24 * 30, // 30 days
-    );
-
-    return {
-        user: { ...userDoc, role },
-        accessToken,
-        refreshToken,
-    };
-};
-
 //admin login
 const adminLogin = async (payload: { email: string, password: string }) => {
 
@@ -282,7 +182,7 @@ const adminLogin = async (payload: { email: string, password: string }) => {
         }
 
         // Handle verify password
-        const passwordMatched = await bcrypt.compare(payload?.password + config.password_pepper, user?.auth?.password);
+        const passwordMatched = await bcrypt.compare(payload?.password, user?.auth?.password);
 
         if (!passwordMatched) {
             throw new AppError(httpStatus.BAD_REQUEST, 'Please check your credentials and try again');
@@ -523,7 +423,6 @@ const refreshToken = async (token: string) => {
 export const authService = {
     createUser,
     loginUser,
-    socialLogin,
     forgotPassword,
     changePassword,
     resetPassword,

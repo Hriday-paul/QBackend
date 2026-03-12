@@ -10,6 +10,7 @@ import { MulterError } from 'multer';
 import handelMulterError from '../error/MulterError';
 import handleValidationError from '../error/ValidationError';
 import { validationResult } from 'express-validator';
+import handleRateLimitError from '../error/RateLimitError';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   // eslint-disable-next-line no-console
@@ -63,7 +64,14 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
-  } else if (err instanceof Error) {
+  } else if ((err as any)?.isRateLimit === true || err?.statusCode === 429) {
+    // ✅ Rate limit handler
+    const simplifiedError = handleRateLimitError(err?.message);
+    statusCode = simplifiedError?.statusCode;
+    message = simplifiedError?.message;
+    errorSources = simplifiedError?.errorSources;
+  }
+  else if (err instanceof Error) {
     message = err.message;
     errorSources = [
       {

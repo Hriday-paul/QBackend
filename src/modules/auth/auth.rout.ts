@@ -8,18 +8,12 @@ import auth from "../../middleware/auth";
 import { Role } from "../../../generated/prisma/enums";
 import { document_Upload } from "../../utils/s3";
 import parseData from "../../middleware/parseData";
-import { rateLimit } from 'express-rate-limit';
+import { req_rate_limit } from "../../middleware/request_limit";
 
 const router = Router();
 
-export const apiLimiter = rateLimit({
-    windowMs: 1 * 60 * 1000, // 1 minutes
-    max: 5, // 5 requests per IP
-    message: 'Too many request has been made. please try again after a minute',
-});
-
 router.post('/create',
-    apiLimiter,
+    req_rate_limit(),
     document_Upload.fields([
         { name: 'business_card_front' },
         { name: 'business_card_back' }
@@ -31,20 +25,14 @@ router.post('/create',
 )
 
 router.post('/login',
-    apiLimiter,
+    req_rate_limit(),
     loginAccountValidator,
     req_validator(),
     authController.loginUser
 )
 
-router.post('/social-login',
-    social_loginAccountValidator,
-    req_validator(),
-    authController.socialLogin
-)
-
 router.post('/admin/login',
-    apiLimiter,
+    req_rate_limit(),
     loginAccountValidator,
     req_validator(),
     authController.adminLogin
@@ -52,7 +40,7 @@ router.post('/admin/login',
 
 router.patch(
     '/change-password',
-    apiLimiter,
+    req_rate_limit(),
     changePasswordValidator,
     req_validator(),
     auth(Role.ADMIN, Role.USER),
@@ -60,7 +48,7 @@ router.patch(
 );
 
 router.post('/refresh',
-    apiLimiter,
+    req_rate_limit(),
     refreshTokenValidator,
     req_validator(),
     authController.refreshToken
@@ -75,10 +63,10 @@ router.post(
 
 router.post(
     '/resend-otp',
-    rateLimit({
-        windowMs: 1 * 60 * 1000, // 1 minutes
-        max: 2, // 1 requests per IP
-        message: 'Only 2 request allowed per minutes. please try again after a minute',
+    req_rate_limit({
+        milisec: 1 * 60 * 1000, // 1 minutes
+        req_limit: 1, // 1 requests per IP
+        message: 'Only 1 request allowed per minutes. please try again after a minute',
     }),
     otpResendValidator,
     req_validator(),
@@ -86,15 +74,15 @@ router.post(
 );
 
 router.post('/forgot-password',
-    rateLimit({
-        windowMs: 1 * 60 * 1000, // 1 minutes
-        max: 1, // 1 requests per IP
+    req_rate_limit({
+        milisec: 1 * 60 * 1000, // 1 minutes
+        req_limit: 1, // 1 requests per IP
         message: 'Only 1 request allowed per minutes. please try again after a minute',
     }),
     forgotPasswordValidator, req_validator(), authController.forgotPassword);
 
 router.patch('/reset-password',
-    apiLimiter,
+    req_rate_limit(),
     resetPasswordValidator, req_validator(), authController.resetPassword);
 
 export const authRouts = router

@@ -117,18 +117,6 @@ const UpdateNotification = catchAsync(async (req, res) => {
     });
 })
 
-const getProfileCompletion = catchAsync(async (req, res) => {
-
-    const result = await userService.getProfileCompletion(req.user?.id);
-
-    sendResponse(res, {
-        statusCode: httpStatus.OK,
-        success: true,
-        message: 'User profile completeion percent retrived successfully',
-        data: result,
-    });
-})
-
 
 export const userController = {
     updateProfile,
@@ -139,5 +127,4 @@ export const userController = {
     deleteUser,
     userDetails,
     UpdateNotification,
-    getProfileCompletion,
 }

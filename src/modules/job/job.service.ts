@@ -1,22 +1,34 @@
+import httpStatus from 'http-status';
 import { EmploymentType, Job, JobCategory, JobStatus, JobType, Prisma } from "../../../generated/prisma/client";
+import AppError from "../../error/AppError";
 import { paginationHelper, TPaginationOptions } from "../../helper/pagination.helper";
 import prisma from "../../shared/prisma";
 
 // create new job
-export const addNewJob = async(payload : Job)=>{
+export const addNewJob = async (payload: Job) => {
     // destructure non adable fields
-    const {createdAt, updatedAt, status, ...moreFields} = payload;
-    const res = await prisma.job.create({data : moreFields});
+    const { createdAt, updatedAt, status, ...moreFields } = payload;
+
+    //checking company is exist or not
+    const company = await prisma.company.findFirst({ where: { id: payload?.companyId } });
+    if (!company) {
+        throw new AppError(httpStatus.NOT_FOUND, "Company does not exist")
+    }
+
+    // finally, save job to db
+    const res = await prisma.job.create({ data: moreFields });
     return res;
 }
 
+// find all jobs with filter
 const allJobs = async (query: Record<string, unknown>, options: TPaginationOptions) => {
 
-    const AndConditions: Prisma.JobWhereInput[] = [{status : JobStatus.ACTIVE}];
+    const AndConditions: Prisma.JobWhereInput[] = [{ status: JobStatus.ACTIVE }];
     const { limit, skip, sortBy, sortOrder, page } = paginationHelper.calculatePagination(options);
 
-    const { searchTerm, job_type, employment_type, division, education, category} = query;
+    const { searchTerm, job_type, employment_type, division, education, category } = query;
 
+    // added search string to the query
     if (searchTerm) {
         AndConditions.push({
             OR: [
@@ -36,11 +48,12 @@ const allJobs = async (query: Record<string, unknown>, options: TPaginationOptio
         });
     }
 
+    // added filter fields to the query
     if (category) {
         const splitCategory = (category as string).split(",");
         AndConditions.push({
             category: {
-                in : splitCategory as JobCategory[]
+                in: splitCategory as JobCategory[]
             },
         });
     }
@@ -49,7 +62,7 @@ const allJobs = async (query: Record<string, unknown>, options: TPaginationOptio
         const splitJob_type = (job_type as string).split(",");
         AndConditions.push({
             job_type: {
-                in : splitJob_type as JobType[]
+                in: splitJob_type as JobType[]
             },
         });
     }
@@ -58,7 +71,7 @@ const allJobs = async (query: Record<string, unknown>, options: TPaginationOptio
         const splitEmployment_type = (employment_type as string).split(",");
         AndConditions.push({
             employment_type: {
-                in : employment_type as EmploymentType[]
+                in: employment_type as EmploymentType[]
             },
         });
     }
@@ -67,7 +80,7 @@ const allJobs = async (query: Record<string, unknown>, options: TPaginationOptio
         const splitDivision = (division as string).split(",");
         AndConditions.push({
             division: {
-                in : splitDivision
+                in: splitDivision
             },
         });
     }
@@ -75,12 +88,12 @@ const allJobs = async (query: Record<string, unknown>, options: TPaginationOptio
         const splitEducation = (education as string).split(",");
         AndConditions.push({
             education: {
-                hasSome : splitEducation
+                hasSome: splitEducation
             },
         });
     }
 
-     const whereConditions: Prisma.JobWhereInput = AndConditions.length > 0 ? { AND: AndConditions } : {};
+    const whereConditions: Prisma.JobWhereInput = AndConditions.length > 0 ? { AND: AndConditions } : {};
 
     const result = await prisma.job.findMany({
         where: whereConditions,
@@ -90,10 +103,11 @@ const allJobs = async (query: Record<string, unknown>, options: TPaginationOptio
             [sortBy]: sortOrder,
         },
         include: {
-            company : true,
+            company: true,
         },
     })
 
+    // calculate total job count, for pagination
     const total = await prisma.job.count({
         where: whereConditions,
     });
@@ -110,7 +124,32 @@ const allJobs = async (query: Record<string, unknown>, options: TPaginationOptio
 
 }
 
+// update job
+export const updateJob = async (jobId: string, payload: Job) => {
+    // destructure non editable fields
+    const { createdAt, updatedAt, status, ...moreFields } = payload;
+    const res = await prisma.job.update({ where: { id: jobId }, data: moreFields });
+    return res;
+}
+
+//delete a job
+const deleteJob = async (jobId: string) => {
+    //check the job is exist or not
+    const existJob = await prisma.job.findFirst({ where: { id: jobId } });
+
+    // throw err if job does not exist
+    if (!existJob) {
+        throw new AppError(httpStatus.NOT_FOUND, "Job does not exist");
+    }
+
+    //finally delete the job
+    const res = await prisma.job.delete({ where: { id: jobId } });
+    return res;
+}
+
 export const jobService = {
     addNewJob,
-    allJobs
+    allJobs,
+    deleteJob,
+    updateJob
 }

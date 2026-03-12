@@ -6,16 +6,16 @@ export const DefaultTask = async () => {
 
     if (!exist) {
         
-        const phone = "01345678901"
+        const email = "admin@gmail.com"
 
         await prisma.user.create({
             data: {
-                name: "Admin",
-                phone,
+                fname: "Admin",
+                email,
                 auth: {
                     create: {
                         password: "$2b$15$RvFgM4f6Mz9vQN0xCPoexuqKPWZnhYm4Yyg5sP5oQx88zoo4IDFWe",
-                        phone,
+                        email,
                         isverified: true,
                         role: Role.ADMIN
                     }

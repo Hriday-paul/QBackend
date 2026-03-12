@@ -113,7 +113,7 @@ model Job {
   applications JobApplication[]
 
   status   JobStatus @default(ACTIVE)
-  deadline DateTime?
+  deadline String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

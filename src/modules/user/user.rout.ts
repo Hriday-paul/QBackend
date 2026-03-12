@@ -6,7 +6,7 @@ import req_validator from "../../middleware/req_validation";
 import { image_Upload } from "../../utils/s3";
 import parseData from "../../middleware/parseData";
 import { Role } from "../../../generated/prisma/enums";
-import { apiLimiter } from "../auth/auth.rout";
+import { req_rate_limit } from "../../middleware/request_limit";
 
 const router = Router();
 
@@ -18,7 +18,7 @@ router.get(
 
 router.patch(
     '/update-my-profile',
-    apiLimiter,
+    req_rate_limit(),
     auth(Role.ADMIN, Role.USER),
     image_Upload.single('picture'),
     parseData(),
@@ -45,12 +45,6 @@ router.get(
     '/my-profile',
     auth(Role.ADMIN, Role.USER),
     userController.getMyProfile,
-);
-
-router.get(
-    '/my-profile/completion',
-    auth(Role.USER),
-    userController.getProfileCompletion,
 );
 
 router.get(

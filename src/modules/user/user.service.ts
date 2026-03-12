@@ -8,9 +8,9 @@ import httpStatus from 'http-status'
 // update user profile
 const updateProfile = async (payload: User, userId: string, image?: { url: string, key: string }) => {
 
-    const { phone, fname, lname, fcmToken, address, countries, profession } = payload
+    const { phone, fname, lname, fcmToken, address } = payload
 
-    const updateFields: Partial<User> = { phone, fname, lname, fcmToken, address, countries, profession };
+    const updateFields: Partial<User> = { phone, fname, lname, fcmToken, address };
 
     // Remove undefined or null fields to prevent overwriting existing values with null
     Object.keys(updateFields).forEach((key) => {
@@ -116,7 +116,7 @@ const allUsers = async (query: Record<string, unknown>, options: TPaginationOpti
 }
 
 const getUserById = async (id: string) => {
-    const result = await prisma.user.findFirst({ where: { id }, include: { picture: true, businessCard: true } });
+    const result = await prisma.user.findFirst({ where: { id }, include: { picture: true } });
     return result;
 };
 
@@ -156,7 +156,7 @@ const deletemyAccount = async (userId: string) => {
 }
 
 const userDetails = async (userId: string) => {
-    const res = await prisma.user.findFirst({ where: { id: userId }, include: { picture: true, businessCard: true } });
+    const res = await prisma.user.findFirst({ where: { id: userId }, include: { picture: true } });
     return res;
 }
 
@@ -165,69 +165,12 @@ const UpdateNotification = async (payload: { status: boolean, fcmToken?: string 
     const res = await prisma.user.update({
         where: { id: userId },
         data: {
-            notification: payload?.status,
             fcmToken: payload?.fcmToken
         }
     });
     return res;
 
 }
-
-type ProfileCompletionResult = {
-    completion: number;      // 0-100
-    missingFields: string[]; // list of incomplete fields
-};
-
-const getProfileCompletion = async (userId: string): Promise<ProfileCompletionResult> => {
-
-    const user = await prisma.user.findFirst({ where: { id: userId } });
-
-    if (!user) {
-        throw new AppError(httpStatus.NOT_FOUND, "Account not found");
-    }
-
-    type FieldConfig = { weight: number; label?: string };
-    const FIELD_CONFIG: Record<keyof any, FieldConfig> = {
-        fname: { weight: 10, label: "First Name" },
-        lname: { weight: 5, label: "Last Name" },
-        email: { weight: 10, label: "Email" },
-        phone: { weight: 10, label: "Phone" },
-        countries: { weight: 5, label: "Country" },
-        address: { weight: 10, label: "Address" },
-        profession: { weight: 10, label: "Profession" },
-        picture: { weight: 15, label: "Profile Picture" },
-        businessCard: { weight: 25, label: "Business Card" },
-    };
-
-    let filledWeight = 0;
-    const missingFields: string[] = [];
-
-    // total weight is sum of all field weights
-    const totalWeight = Object.values(FIELD_CONFIG).reduce(
-        (acc, field) => acc + field.weight,
-        0
-    );
-
-    // iterate over FIELD_CONFIG
-    for (const key in FIELD_CONFIG) {
-        const fieldKey = key as keyof User;
-        const { weight, label } = FIELD_CONFIG[fieldKey]!;
-        const value = user[fieldKey];
-
-        const isEmpty = value === null || value === undefined || (typeof value === "string" && value.trim() === "") ||
-            (Array.isArray(value) && value.length === 0);
-
-        if (isEmpty) {
-            missingFields.push(label!);
-        } else {
-            filledWeight += weight;
-        }
-    }
-
-    const completion = Math.min(Math.round((filledWeight / totalWeight) * 100), 100);
-
-    return { completion, missingFields };
-};
 
 export const userService = {
     updateProfile,
@@ -236,6 +179,5 @@ export const userService = {
     status_update_user,
     deletemyAccount,
     userDetails,
-    getProfileCompletion,
     UpdateNotification,
 }

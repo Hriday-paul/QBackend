@@ -35,8 +35,36 @@ const allJobs = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
+//update a job
+const updateJob = catchAsync(async (req: Request, res: Response) => {
+
+    const result = await jobService.updateJob(req.params?.id, req.body);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Job updated successfully',
+        data: result
+    });
+})
+
+//delete a job
+const deleteJob = catchAsync(async (req: Request, res: Response) => {
+
+    const result = await jobService.deleteJob(req.params?.id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Job deleted successfully',
+        data: result
+    });
+})
+
 
 export const jobControler = {
     addNewJob,
-    allJobs
+    allJobs,
+    updateJob,
+    deleteJob
 }
