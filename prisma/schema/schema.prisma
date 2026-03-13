@@ -115,6 +115,8 @@ model Job {
   status   JobStatus @default(ACTIVE)
   deadline String?
 
+  isFeature Boolean @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -148,6 +150,9 @@ enum JobStatus {
 
 model JobApplication {
   id String @id @default(uuid())
+
+  name String
+  email String
 
   resumeUrl   String?
   coverLetter String?

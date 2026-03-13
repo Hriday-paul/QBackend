@@ -35,6 +35,19 @@ const allJobs = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
+//all jobs
+const jobDetails = catchAsync(async (req: Request, res: Response) => {
+
+    const result = await jobService.jobDetails(req.params?.id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Job details retrived successfully',
+        data: result
+    });
+})
+
 //update a job
 const updateJob = catchAsync(async (req: Request, res: Response) => {
 
@@ -61,10 +74,39 @@ const deleteJob = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
+//feature a job
+const featureJob = catchAsync(async (req: Request, res: Response) => {
+
+    const result = await jobService.featureJob(req.params?.id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Job featured successfully',
+        data: result
+    });
+})
+
+//all feature jobs
+const allFeatureJobs = catchAsync(async (req: Request, res: Response) => {
+
+    const result = await jobService.allFeatureJobs();
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'All Featured jobs retrived successfully',
+        data: result
+    });
+})
+
 
 export const jobControler = {
     addNewJob,
     allJobs,
+    jobDetails,
     updateJob,
-    deleteJob
+    deleteJob,
+    featureJob,
+    allFeatureJobs
 }

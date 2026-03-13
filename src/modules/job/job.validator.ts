@@ -78,18 +78,18 @@ export const createJobValidator = [
 
     // Salary fields
     body("salaryMin")
-        .optional()
-        .isInt({ min: 0 }).withMessage("Salary min must be a non-negative integer"),
+        .optional({nullable : true})
+        .isInt({ min: 0 }).withMessage("Salary min must be a non-negative integer").toInt(),
 
     body("salaryMax")
-        .optional()
+        .optional({nullable : true})
         .isInt({ min: 0 }).withMessage("Salary max must be a non-negative integer")
         .custom((max, { req }) => {
             if (req.body.salaryMin !== undefined && max < req.body.salaryMin) {
                 throw new Error("salaryMax must be greater than or equal to salaryMin");
             }
             return true;
-        }),
+        }).toInt(),
 
     body("currency")
         .optional()
@@ -189,18 +189,18 @@ export const editJobValidator = [
 
     // Salary fields
     body("salaryMin")
-        .optional()
-        .isInt({ min: 0 }).withMessage("Salary min must be a non-negative integer"),
+        .optional({nullable : true})
+        .isInt({ min: 0 }).withMessage("Salary min must be a non-negative integer").toInt(),
 
     body("salaryMax")
-        .optional()
+        .optional({nullable : true})
         .isInt({ min: 0 }).withMessage("Salary max must be a non-negative integer")
         .custom((max, { req }) => {
             if (req.body.salaryMin !== undefined && max < req.body.salaryMin) {
                 throw new Error("salaryMax must be greater than or equal to salaryMin");
             }
             return true;
-        }),
+        }).toInt(),
 
     body("currency")
         .optional()

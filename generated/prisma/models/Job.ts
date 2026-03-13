@@ -54,6 +54,7 @@ export type JobMinAggregateOutputType = {
   companyId: string | null
   status: $Enums.JobStatus | null
   deadline: string | null
+  isFeature: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -77,6 +78,7 @@ export type JobMaxAggregateOutputType = {
   companyId: string | null
   status: $Enums.JobStatus | null
   deadline: string | null
+  isFeature: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -102,6 +104,7 @@ export type JobCountAggregateOutputType = {
   companyId: number
   status: number
   deadline: number
+  isFeature: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -137,6 +140,7 @@ export type JobMinAggregateInputType = {
   companyId?: true
   status?: true
   deadline?: true
+  isFeature?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -160,6 +164,7 @@ export type JobMaxAggregateInputType = {
   companyId?: true
   status?: true
   deadline?: true
+  isFeature?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -185,6 +190,7 @@ export type JobCountAggregateInputType = {
   companyId?: true
   status?: true
   deadline?: true
+  isFeature?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -297,6 +303,7 @@ export type JobGroupByOutputType = {
   companyId: string
   status: $Enums.JobStatus
   deadline: string | null
+  isFeature: boolean
   createdAt: Date
   updatedAt: Date
   _count: JobCountAggregateOutputType | null
@@ -345,6 +352,7 @@ export type JobWhereInput = {
   companyId?: Prisma.StringFilter<"Job"> | string
   status?: Prisma.EnumJobStatusFilter<"Job"> | $Enums.JobStatus
   deadline?: Prisma.StringNullableFilter<"Job"> | string | null
+  isFeature?: Prisma.BoolFilter<"Job"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Job"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Job"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -372,6 +380,7 @@ export type JobOrderByWithRelationInput = {
   companyId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   deadline?: Prisma.SortOrderInput | Prisma.SortOrder
+  isFeature?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   company?: Prisma.CompanyOrderByWithRelationInput
@@ -402,6 +411,7 @@ export type JobWhereUniqueInput = Prisma.AtLeast<{
   companyId?: Prisma.StringFilter<"Job"> | string
   status?: Prisma.EnumJobStatusFilter<"Job"> | $Enums.JobStatus
   deadline?: Prisma.StringNullableFilter<"Job"> | string | null
+  isFeature?: Prisma.BoolFilter<"Job"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Job"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Job"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -429,6 +439,7 @@ export type JobOrderByWithAggregationInput = {
   companyId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   deadline?: Prisma.SortOrderInput | Prisma.SortOrder
+  isFeature?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.JobCountOrderByAggregateInput
@@ -462,6 +473,7 @@ export type JobScalarWhereWithAggregatesInput = {
   companyId?: Prisma.StringWithAggregatesFilter<"Job"> | string
   status?: Prisma.EnumJobStatusWithAggregatesFilter<"Job"> | $Enums.JobStatus
   deadline?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null
+  isFeature?: Prisma.BoolWithAggregatesFilter<"Job"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Job"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Job"> | Date | string
 }
@@ -486,6 +498,7 @@ export type JobCreateInput = {
   employment_type?: $Enums.EmploymentType
   status?: $Enums.JobStatus
   deadline?: string | null
+  isFeature?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutJobsInput
@@ -513,6 +526,7 @@ export type JobUncheckedCreateInput = {
   companyId: string
   status?: $Enums.JobStatus
   deadline?: string | null
+  isFeature?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.JobApplicationUncheckedCreateNestedManyWithoutJobInput
@@ -538,6 +552,7 @@ export type JobUpdateInput = {
   employment_type?: Prisma.EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
   status?: Prisma.EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
   deadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutJobsNestedInput
@@ -565,6 +580,7 @@ export type JobUncheckedUpdateInput = {
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
   deadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.JobApplicationUncheckedUpdateManyWithoutJobNestedInput
@@ -591,6 +607,7 @@ export type JobCreateManyInput = {
   companyId: string
   status?: $Enums.JobStatus
   deadline?: string | null
+  isFeature?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -615,6 +632,7 @@ export type JobUpdateManyMutationInput = {
   employment_type?: Prisma.EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
   status?: Prisma.EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
   deadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -640,6 +658,7 @@ export type JobUncheckedUpdateManyInput = {
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
   deadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -675,6 +694,7 @@ export type JobCountOrderByAggregateInput = {
   companyId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   deadline?: Prisma.SortOrder
+  isFeature?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -703,6 +723,7 @@ export type JobMaxOrderByAggregateInput = {
   companyId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   deadline?: Prisma.SortOrder
+  isFeature?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -726,6 +747,7 @@ export type JobMinOrderByAggregateInput = {
   companyId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   deadline?: Prisma.SortOrder
+  isFeature?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -858,6 +880,7 @@ export type JobCreateWithoutCompanyInput = {
   employment_type?: $Enums.EmploymentType
   status?: $Enums.JobStatus
   deadline?: string | null
+  isFeature?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.JobApplicationCreateNestedManyWithoutJobInput
@@ -883,6 +906,7 @@ export type JobUncheckedCreateWithoutCompanyInput = {
   employment_type?: $Enums.EmploymentType
   status?: $Enums.JobStatus
   deadline?: string | null
+  isFeature?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   applications?: Prisma.JobApplicationUncheckedCreateNestedManyWithoutJobInput
@@ -938,6 +962,7 @@ export type JobScalarWhereInput = {
   companyId?: Prisma.StringFilter<"Job"> | string
   status?: Prisma.EnumJobStatusFilter<"Job"> | $Enums.JobStatus
   deadline?: Prisma.StringNullableFilter<"Job"> | string | null
+  isFeature?: Prisma.BoolFilter<"Job"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Job"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Job"> | Date | string
 }
@@ -962,6 +987,7 @@ export type JobCreateWithoutApplicationsInput = {
   employment_type?: $Enums.EmploymentType
   status?: $Enums.JobStatus
   deadline?: string | null
+  isFeature?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutJobsInput
@@ -988,6 +1014,7 @@ export type JobUncheckedCreateWithoutApplicationsInput = {
   companyId: string
   status?: $Enums.JobStatus
   deadline?: string | null
+  isFeature?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1028,6 +1055,7 @@ export type JobUpdateWithoutApplicationsInput = {
   employment_type?: Prisma.EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
   status?: Prisma.EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
   deadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutJobsNestedInput
@@ -1054,6 +1082,7 @@ export type JobUncheckedUpdateWithoutApplicationsInput = {
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
   deadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1078,6 +1107,7 @@ export type JobCreateManyCompanyInput = {
   employment_type?: $Enums.EmploymentType
   status?: $Enums.JobStatus
   deadline?: string | null
+  isFeature?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1102,6 +1132,7 @@ export type JobUpdateWithoutCompanyInput = {
   employment_type?: Prisma.EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
   status?: Prisma.EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
   deadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.JobApplicationUpdateManyWithoutJobNestedInput
@@ -1127,6 +1158,7 @@ export type JobUncheckedUpdateWithoutCompanyInput = {
   employment_type?: Prisma.EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
   status?: Prisma.EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
   deadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   applications?: Prisma.JobApplicationUncheckedUpdateManyWithoutJobNestedInput
@@ -1152,6 +1184,7 @@ export type JobUncheckedUpdateManyWithoutCompanyInput = {
   employment_type?: Prisma.EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
   status?: Prisma.EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
   deadline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1208,6 +1241,7 @@ export type JobSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   companyId?: boolean
   status?: boolean
   deadline?: boolean
+  isFeature?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -1236,6 +1270,7 @@ export type JobSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   companyId?: boolean
   status?: boolean
   deadline?: boolean
+  isFeature?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -1262,6 +1297,7 @@ export type JobSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   companyId?: boolean
   status?: boolean
   deadline?: boolean
+  isFeature?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -1288,11 +1324,12 @@ export type JobSelectScalar = {
   companyId?: boolean
   status?: boolean
   deadline?: boolean
+  isFeature?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type JobOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "responsibilities" | "requirements" | "benefits" | "category" | "experience" | "education" | "gender" | "salaryMin" | "salaryMax" | "currency" | "street" | "division" | "job_type" | "employment_type" | "companyId" | "status" | "deadline" | "createdAt" | "updatedAt", ExtArgs["result"]["job"]>
+export type JobOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "responsibilities" | "requirements" | "benefits" | "category" | "experience" | "education" | "gender" | "salaryMin" | "salaryMax" | "currency" | "street" | "division" | "job_type" | "employment_type" | "companyId" | "status" | "deadline" | "isFeature" | "createdAt" | "updatedAt", ExtArgs["result"]["job"]>
 export type JobInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   applications?: boolean | Prisma.Job$applicationsArgs<ExtArgs>
@@ -1332,6 +1369,7 @@ export type $JobPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     companyId: string
     status: $Enums.JobStatus
     deadline: string | null
+    isFeature: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["job"]>
@@ -1779,6 +1817,7 @@ export interface JobFieldRefs {
   readonly companyId: Prisma.FieldRef<"Job", 'String'>
   readonly status: Prisma.FieldRef<"Job", 'JobStatus'>
   readonly deadline: Prisma.FieldRef<"Job", 'String'>
+  readonly isFeature: Prisma.FieldRef<"Job", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Job", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Job", 'DateTime'>
 }

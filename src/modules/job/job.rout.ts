@@ -16,6 +16,18 @@ router.post('/',
     jobControler.addNewJob
 )
 
+// add feature a job
+router.patch('/feature/:id',
+    req_rate_limit(),
+    auth(Role.ADMIN),
+    jobControler.featureJob
+)
+
+//all feature jobs
+router.get('/feature',
+    jobControler.allFeatureJobs
+)
+
 router.patch('/:id',
     req_rate_limit(),
     editJobValidator,
@@ -26,6 +38,10 @@ router.patch('/:id',
 
 router.get('/',
     jobControler.allJobs
+)
+
+router.get('/:id',
+    jobControler.jobDetails
 )
 
 router.delete('/:id',

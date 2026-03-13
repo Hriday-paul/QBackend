@@ -154,6 +154,7 @@ export const JobScalarFieldEnum = {
   companyId: 'companyId',
   status: 'status',
   deadline: 'deadline',
+  isFeature: 'isFeature',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -163,6 +164,8 @@ export type JobScalarFieldEnum = (typeof JobScalarFieldEnum)[keyof typeof JobSca
 
 export const JobApplicationScalarFieldEnum = {
   id: 'id',
+  name: 'name',
+  email: 'email',
   resumeUrl: 'resumeUrl',
   coverLetter: 'coverLetter',
   status: 'status',

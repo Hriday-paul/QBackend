@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-import { EmploymentType, Job, JobCategory, JobStatus, JobType, Prisma } from "../../../generated/prisma/client";
+import { Company, EmploymentType, Job, JobCategory, JobStatus, JobType, Prisma } from "../../../generated/prisma/client";
 import AppError from "../../error/AppError";
 import { paginationHelper, TPaginationOptions } from "../../helper/pagination.helper";
 import prisma from "../../shared/prisma";
@@ -7,7 +7,7 @@ import prisma from "../../shared/prisma";
 // create new job
 export const addNewJob = async (payload: Job) => {
     // destructure non adable fields
-    const { createdAt, updatedAt, status, ...moreFields } = payload;
+    const { createdAt, updatedAt, status, isFeature, ...moreFields } = payload;
 
     //checking company is exist or not
     const company = await prisma.company.findFirst({ where: { id: payload?.companyId } });
@@ -124,10 +124,21 @@ const allJobs = async (query: Record<string, unknown>, options: TPaginationOptio
 
 }
 
+//job details
+const jobDetails = async (jobId: string) => {
+    const job = await prisma.job.findFirst({
+        where: { id: jobId }, include: {
+            company: true
+        }
+    })
+
+    return job;
+}
+
 // update job
-export const updateJob = async (jobId: string, payload: Job) => {
+export const updateJob = async (jobId: string, payload: Job & { company: Company }) => {
     // destructure non editable fields
-    const { createdAt, updatedAt, status, ...moreFields } = payload;
+    const { createdAt, updatedAt, status, isFeature, company, ...moreFields } = payload;
     const res = await prisma.job.update({ where: { id: jobId }, data: moreFields });
     return res;
 }
@@ -147,9 +158,50 @@ const deleteJob = async (jobId: string) => {
     return res;
 }
 
+//feature a job
+const featureJob = async (jobId: string) => {
+    //check the job is exist or not
+    const existJob = await prisma.job.findFirst({ where: { id: jobId } });
+
+    // throw err if job does not exist
+    if (!existJob) {
+        throw new AppError(httpStatus.NOT_FOUND, "Job does not exist");
+    }
+
+    // checking job is active or not
+    if (existJob?.status !== "ACTIVE") {
+        throw new AppError(httpStatus.BAD_REQUEST, "Job is not active")
+    }
+
+    // checking job already featured
+    if (existJob?.isFeature) {
+        throw new AppError(httpStatus.CONFLICT, "Job already in Featured")
+    }
+
+    //finally feature the job
+    const res = await prisma.job.update({ where: { id: jobId }, data: { isFeature: true } });
+    return res;
+}
+
+//features job list
+const allFeatureJobs = async () => {
+
+    const res = await prisma.job.findMany({
+        where: { status: JobStatus.ACTIVE, isFeature: true },
+        take: 10,
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+    return res;
+}
+
 export const jobService = {
     addNewJob,
     allJobs,
+    jobDetails,
     deleteJob,
-    updateJob
+    updateJob,
+    featureJob,
+    allFeatureJobs
 }
