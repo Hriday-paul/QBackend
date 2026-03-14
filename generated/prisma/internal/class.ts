@@ -22,7 +22,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "D:\\HP\\QBackend\\generated\\prisma",
+      "value": "D:\\QBackend\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -36,7 +36,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\HP\\QBackend\\prisma\\schema\\schema.prisma",
+    "sourceFilePath": "D:\\QBackend\\prisma\\schema\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../prisma/schema",
