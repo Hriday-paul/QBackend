@@ -3,6 +3,7 @@ import { authRouts } from './modules/auth/auth.rout';
 import { userRoutes } from './modules/user/user.rout';
 import { jobRouts } from './modules/job/job.rout';
 import { companyRouts } from './modules/company/company.rout';
+import { applicationRouts } from './modules/application/application.rout';
 
 const router = express.Router();
 
@@ -22,7 +23,11 @@ const moduleRoutes = [
     {
         path: "/companies",
         route: companyRouts
-    }
+    },
+    {
+        path: "/applications",
+        route: applicationRouts
+    },
 ];
 
 moduleRoutes.forEach(route => router.use(route.path, route.route));

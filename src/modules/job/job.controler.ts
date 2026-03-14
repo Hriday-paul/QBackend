@@ -100,6 +100,19 @@ const allFeatureJobs = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
+// jobs counts by category
+const getJobsByCategory = catchAsync(async (req: Request, res: Response) => {
+
+    const result = await jobService.getJobsByCategory();
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Jobs count retrived with category successfully',
+        data: result
+    });
+})
+
 
 export const jobControler = {
     addNewJob,
@@ -108,5 +121,6 @@ export const jobControler = {
     updateJob,
     deleteJob,
     featureJob,
-    allFeatureJobs
+    allFeatureJobs,
+    getJobsByCategory
 }

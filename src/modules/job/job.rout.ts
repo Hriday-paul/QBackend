@@ -28,6 +28,11 @@ router.get('/feature',
     jobControler.allFeatureJobs
 )
 
+// jobs counts by category
+router.get('/categories',
+    jobControler.getJobsByCategory
+)
+
 router.patch('/:id',
     req_rate_limit(),
     editJobValidator,

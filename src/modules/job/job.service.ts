@@ -71,7 +71,7 @@ const allJobs = async (query: Record<string, unknown>, options: TPaginationOptio
         const splitEmployment_type = (employment_type as string).split(",");
         AndConditions.push({
             employment_type: {
-                in: employment_type as EmploymentType[]
+                in: splitEmployment_type as EmploymentType[]
             },
         });
     }
@@ -188,13 +188,34 @@ const allFeatureJobs = async () => {
 
     const res = await prisma.job.findMany({
         where: { status: JobStatus.ACTIVE, isFeature: true },
-        take: 10,
+        include : {company : true},
+        take: 8,
         orderBy: {
             createdAt: "desc",
         },
     });
     return res;
 }
+
+// jobs counts by category
+const getJobsByCategory = async () => {
+    const grouped = await prisma.job.groupBy({
+        by: ["category"],
+        where: { status: JobStatus.ACTIVE },
+        _count: { category: true },
+    });
+
+    // Fill in 0 for categories with no jobs
+    const result = Object.values(JobCategory).map((category) => {
+        const found = grouped.find((g) => g.category === category);
+        return {
+            category,
+            count: found?._count.category ?? 0,
+        };
+    });
+
+    return result;
+};
 
 export const jobService = {
     addNewJob,
@@ -203,5 +224,6 @@ export const jobService = {
     deleteJob,
     updateJob,
     featureJob,
-    allFeatureJobs
+    allFeatureJobs,
+    getJobsByCategory
 }
