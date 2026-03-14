@@ -15,7 +15,7 @@ const app: Express = express();
 multer();
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(cors({
-  origin: ["http://localhost:3000", "http://10.10.10.9:3002"],
+  origin: ["http://localhost:3000", "http://10.10.10.9:3002", "https://qtask-two.vercel.app"],
   credentials: true
 }));
 
