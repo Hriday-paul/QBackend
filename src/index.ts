@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import helmet from "helmet";
 import globalErrorHandler from "./middleware/globalErrorhandler";
 import { DefaultTask } from "./utils/DefaultTask";
+import config from "./config";
 dotenv.config();
 
 const app: Express = express();
@@ -15,7 +16,7 @@ const app: Express = express();
 multer();
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(cors({
-  origin: ["http://localhost:3000", "http://10.10.10.9:3002", "https://qtask-two.vercel.app"],
+  origin: ["http://localhost:3000", "http://10.10.10.9:3002", "https://qtask-two.vercel.app", config.client_Url!],
   credentials: true
 }));
 
